@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPBOMI Koumassi — Feuille de présence</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#FAFAF9;--ink:#1c1917;--ink-soft:#78716c;--line:#e7e5e4;--amber:#b45309;--amber-bg:#fef3c7;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;}
+  h1,.serif{font-family:'Fraunces',serif;}
+  header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:10;}
+  .header-inner{max-width:760px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
+  .brand p:first-child{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);font-weight:600;margin:0;}
+  .brand p.title{font-size:18px;margin:2px 0;}
+  .brand p.date{font-size:12px;color:var(--ink-soft);margin:0;text-transform:capitalize;}
+  .tabs{display:flex;gap:4px;background:#f5f5f4;border-radius:8px;padding:4px;}
+  .tabs button{border:none;background:transparent;padding:7px 12px;font-size:12px;font-weight:500;border-radius:6px;cursor:pointer;color:var(--ink-soft);}
+  .tabs button.active{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06);}
+  main{max-width:760px;margin:0 auto;padding:28px 20px 60px;}
+  input,select{font-family:'Inter',sans-serif;font-size:13px;padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;width:100%;}
+  input:focus,select:focus{outline:none;border-color:var(--amber);}
+  .center{text-align:center;margin-bottom:24px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:var(--amber-bg);font-size:22px;margin-bottom:10px;}
+  .dept-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--amber);font-weight:600;margin:18px 0 8px;}
+  .member-btn{width:100%;display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:#fff;font-size:13px;text-align:left;cursor:pointer;margin-bottom:8px;}
+  .member-btn.done{background:var(--amber-bg);border-color:#fcd34d;color:#92400e;}
+  .member-btn:disabled{cursor:default;}
+  .muted{color:var(--ink-soft);font-size:12px;}
+  .row{display:flex;gap:8px;}
+  .btn-dark{background:var(--ink);color:#fff;border:none;padding:0 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;}
+  .btn-green{background:#16a34a;color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;}
+  .btn-outline{background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;}
+  .stat .n{font-size:22px;font-weight:600;}
+  .stat .l{font-size:11px;color:var(--ink-soft);}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:13px;}
+  th{background:#f5f5f4;text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;color:var(--ink-soft);}
+  td{padding:9px 12px;border-top:1px solid var(--line);}
+  .link{color:#dc2626;font-size:12px;text-decoration:underline;background:none;border:none;cursor:pointer;}
+  .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;z-index:50;display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <p>EPBOMI Koumassi</p>
+      <p class="title serif">Feuille de présence</p>
+      <p class="date" id="dateLabel"></p>
+    </div>
+    <div class="tabs">
+      <button id="tabAdmin" class="active" onclick="setView('admin')">Accueil / Admin</button>
+      <button id="tabCheckin" onclick="setView('checkin')">Pointage</button>
+    </div>
+  </div>
+</header>
+
+<div class="toast" id="toast"></div>
+
+<main id="app"></main>
+
+<script>
+const WHATSAPP_RECAP_NUMBER = "2250757995853";
+const DEFAULT_ROSTER = [
+  {name:"Marie Dubois",department:"Chorale"},{name:"Jean Kouassi",department:"Accueil"},
+  {name:"Fatou N'Diaye",department:"Jeunesse"},{name:"Paul Nguyen",department:"Intercession"},
+  {name:"Claire Martin",department:"Chorale"},{name:"Samuel Ade",department:"Sécurité"},
+  {name:"Ruth Ilunga",department:"École du dimanche"},{name:"David Lefevre",department:"Accueil"},
+  {name:"Grace Mensah",department:"Media"},{name:"Thomas Roy",department:"Intercession"},
+  {name:"Esther Kabongo",department:"École du dimanche"},{name:"Marc Traore",department:"Sécurité"},
+  {name:"Koumas Raymond",department:"À définir"},{name:"Yzo Raymond",department:"À définir"},
+  {name:"Koffi Eliezer",department:"À définir"},{name:"Konan",department:"À définir"},
+];
+
+function todayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function fmtTime(iso){return new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+function fmtDate(key){const [y,m,d]=key.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
+
+const dateKey = todayKey();
+document.getElementById('dateLabel').textContent = fmtDate(dateKey);
+
+let roster = JSON.parse(localStorage.getItem('roster:members') || 'null') || DEFAULT_ROSTER;
+localStorage.setItem('roster:members', JSON.stringify(roster));
+let checkins = JSON.parse(localStorage.getItem(`presence:${dateKey}`) || '{}');
+let view = 'admin';
+let search = '';
+
+function save(){
+  localStorage.setItem('roster:members', JSON.stringify(roster));
+  localStorage.setItem(`presence:${dateKey}`, JSON.stringify(checkins));
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(()=>t.style.display='none', 2200);
+}
+
+function setView(v){
+  view = v;
+  document.getElementById('tabAdmin').classList.toggle('active', v==='admin');
+  document.getElementById('tabCheckin').classList.toggle('active', v==='checkin');
+  render();
+}
+
+function checkIn(name, dept){
+  if(checkins[name]){ showToast(`${name} a déjà pointé — n°${checkins[name].number}`); return; }
+  const number = Object.keys(checkins).length + 1;
+  checkins[name] = {time: new Date().toISOString(), visitor:false, department:dept, number};
+  save(); showToast(`🎉 ${name} — présence n°${number} enregistrée`); render();
+}
+
+function addVisitor(){
+  const input = document.getElementById('visitorInput');
+  const name = input.value.trim();
+  if(!name) return;
+  if(checkins[name]){ showToast(`${name} a déjà pointé`); return; }
+  const number = Object.keys(checkins).length + 1;
+  checkins[name] = {time: new Date().toISOString(), visitor:true, department:"Visiteur", number};
+  save(); input.value=''; showToast(`Bienvenue, ${name} ! Présence n°${number}`); render();
+}
+
+function removeCheckin(name){ delete checkins[name]; save(); render(); }
+
+function addMember(){
+  const n = document.getElementById('newName').value.trim();
+  const d = document.getElementById('newDept').value.trim() || 'À définir';
+  if(!n || roster.some(m=>m.name===n)) return;
+  roster.push({name:n, department:d});
+  roster.sort((a,b)=>a.name.localeCompare(b.name,'fr'));
+  save(); document.getElementById('newName').value=''; document.getElementById('newDept').value=''; render();
+}
+
+function removeMember(name){ roster = roster.filter(m=>m.name!==name); save(); render(); }
+
+function exportCSV(){
+  const rows = [["N°","Nom","Département","Heure","Visiteur"]];
+  Object.entries(checkins).sort((a,b)=>new Date(a[1].time)-new Date(b[1].time))
+    .forEach(([name,info])=>rows.push([info.number,name,info.department||'',fmtTime(info.time),info.visitor?'Oui':'Non']));
+  const csv = rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
+  const blob = new Blob(["\uFEFF"+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`presence-${dateKey}.csv`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function sendRecap(){
+  const list = Object.entries(checkins).sort((a,b)=>new Date(a[1].time)-new Date(b[1].time));
+  const byDept = {};
+  list.forEach(([name,info])=>{
+    const d = info.department || 'Non précisé';
+    (byDept[d] = byDept[d]||[]).push({name, time: fmtTime(info.time)});
+  });
+  let text = `*Récap présence — ${fmtDate(dateKey)}*\nTotal : ${list.length} présent(s) sur ${roster.length} membres inscrits\n\n`;
+  Object.entries(byDept).forEach(([d,names])=>{
+    text += `*${d}* (${names.length})\n${names.map(n=>`- ${n.name} (${n.time})`).join('\n')}\n\n`;
+  });
+  window.open(`https://wa.me/${WHATSAPP_RECAP_NUMBER}?text=${encodeURIComponent(text.trim())}`, '_blank');
+}
+
+function render(){
+  const app = document.getElementById('app');
+  if(view === 'checkin'){
+    const filtered = roster.filter(m => m.name.toLowerCase().includes(search.toLowerCase()) || m.department.toLowerCase().includes(search.toLowerCase()));
+    const groups = {};
+    filtered.forEach(m => (groups[m.department||'Non précisé'] = groups[m.department||'Non précisé']||[]).push(m));
+    app.innerHTML = `
+      <div class="center">
+        <div class="badge">✓</div>
+        <h1 class="serif" style="font-size:20px;margin:0 0 4px;">Bienvenue !</h1>
+        <p class="muted">Trouve ton nom et pointe ton arrivée.</p>
+      </div>
+      <input id="searchInput" placeholder="Rechercher ton nom ou département..." value="${search}" style="margin-bottom:16px;">
+      ${Object.keys(groups).length===0 ? '<p class="muted" style="text-align:center;">Aucun nom trouvé.</p>' :
+        Object.entries(groups).sort((a,b)=>a[0].localeCompare(b[0],'fr')).map(([dept,members])=>`
+          <p class="dept-label">${dept} <span class="muted">(${members.length})</span></p>
+          ${members.map(m=>{
+            const done = checkins[m.name];
+            return `<button class="member-btn ${done?'done':''}" ${done?'disabled':''} onclick="checkIn('${m.name.replace(/'/g,"\\'")}','${dept.replace(/'/g,"\\'")}')">
+              <span style="font-weight:500;">${m.name}</span>
+              ${done ? `<span style="font-family:monospace;">🎉 n°${done.number} · ${fmtTime(done.time)}</span>` : `<span class="muted">Toucher pour pointer</span>`}
+            </button>`;
+          }).join('')}
+        `).join('')
+      }
+      <div style="border-top:1px solid var(--line);padding-top:18px;margin-top:8px;">
+        <p class="muted" style="text-transform:uppercase;font-size:11px;letter-spacing:.06em;margin-bottom:8px;">Pas dans la liste ?</p>
+        <div class="row">
+          <input id="visitorInput" placeholder="Ton nom (visiteur)">
+          <button class="btn-dark" onclick="addVisitor()">Pointer</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('searchInput').oninput = (e) => { search = e.target.value; render(); document.getElementById('searchInput').focus(); };
+  } else {
+    const list = Object.entries(checkins).sort((a,b)=>new Date(a[1].time)-new Date(b[1].time));
+    const visitors = list.filter(([,i])=>i.visitor).length;
+    app.innerHTML = `
+      <div class="stats">
+        <div class="stat"><div class="n">${list.length}</div><div class="l">Présents aujourd'hui</div></div>
+        <div class="stat"><div class="n">${roster.length}</div><div class="l">Membres inscrits</div></div>
+        <div class="stat"><div class="n">${visitors}</div><div class="l">Visiteurs</div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 class="serif" style="font-size:16px;margin:0;">Présences du jour</h2>
+        <div class="row">
+          <button class="btn-green" ${list.length===0?'disabled':''} onclick="sendRecap()">Envoyer le récap WhatsApp</button>
+          <button class="btn-outline" ${list.length===0?'disabled':''} onclick="exportCSV()">Exporter en CSV</button>
+        </div>
+      </div>
+      <table style="margin-bottom:28px;">
+        <thead><tr><th>N°</th><th>Nom</th><th>Département</th><th>Heure</th><th></th></tr></thead>
+        <tbody>
+          ${list.length===0 ? '<tr><td colspan="5" class="muted" style="text-align:center;padding:24px;">Personne n\u2019a encore point\u00e9.</td></tr>' :
+            list.map(([name,info])=>`
+              <tr>
+                <td style="font-family:monospace;color:var(--ink-soft);">${info.number}</td>
+                <td style="font-weight:500;">${name}</td>
+                <td class="muted">${info.department}</td>
+                <td style="font-family:monospace;" class="muted">${fmtTime(info.time)}</td>
+                <td style="text-align:right;"><button class="link" onclick="removeCheckin('${name.replace(/'/g,"\\'")}')">Retirer</button></td>
+              </tr>
+            `).join('')
+          }
+        </tbody>
+      </table>
+      <h2 class="serif" style="font-size:16px;margin-bottom:10px;">Gérer la liste des membres</h2>
+      <div class="row" style="margin-bottom:14px;">
+        <input id="newName" placeholder="Nom du membre">
+        <input id="newDept" placeholder="Département" style="max-width:160px;">
+        <button class="btn-dark" onclick="addMember()">Ajouter</button>
+      </div>
+      <table>
+        <tbody>
+          ${roster.map(m=>`
+            <tr><td style="font-weight:500;">${m.name} <span class="muted">— ${m.department}</span></td>
+            <td style="text-align:right;"><button class="link" onclick="removeMember('${m.name.replace(/'/g,"\\'")}')">Retirer</button></td></tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+}
+
+render();
+</script>
+</body>
+</html>
