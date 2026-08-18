@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Élégance Boutique | Collection Chemises en Lin</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #121212; color: #ffffff; }
+        header { background-color: #000000; color: #d4af37; padding: 40px 20px; text-align: center; border-bottom: 3px solid #d4af37; }
+        header h1 { margin: 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 2px; }
+        header p { margin-top: 10px; color: #cccccc; font-size: 1.1em; }
+        
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 20px; max-width: 1200px; margin: auto; }
+        
+        .card { background-color: #1e1e1e; border-radius: 12px; border: 1px solid #333333; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: transform 0.3s, border-color 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: #d4af37; }
+        .card img { width: 100%; height: 380px; object-fit: cover; display: block; }
+        
+        .card-body { padding: 20px; text-align: center; }
+        .card-title { font-size: 1.3em; color: #d4af37; margin: 0 0 10px 0; font-weight: bold; }
+        
+        .price-box { margin: 15px 0; display: flex; justify-content: center; align-items: center; gap: 12px; }
+        .old-price { text-decoration: line-through; color: #888888; font-size: 1.1em; }
+        .promo-price { color: #ff4d4d; font-size: 1.5em; font-weight: bold; }
+        
+        .form-container { background-color: #262626; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: left; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 0.85em; color: #bbbbbb; margin-bottom: 4px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444; background-color: #181818; color: #fff; box-sizing: border-box; font-size: 0.95em; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #d4af37; }
+        
+        .btn-order { display: block; width: 100%; padding: 12px; background-color: #25d366; color: #ffffff; border: none; border-radius: 5px; font-size: 1em; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: background-color 0.3s; margin-top: 10px; }
+        .btn-order:hover { background-color: #1ebc57; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Élégance Boutique</h1>
+        <p>Collection Exclusive Chemises en Lin – Offres Spéciales</p>
+    </header>
+
+    <div class="gallery">
+
+        <!-- Produit 1 -->
+        <div class="card">
+            <img src="lin-beige-losange.jpg" alt="Lin Beige Losange">
+            <div class="card-body">
+                <div class="card-title">Lin Beige Losange</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form1" onsubmit="commanderWhatsApp(event, 'Lin Beige Losange', '15 000 FCFA', 'form1')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan, Cocody" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produit 2 -->
+        <div class="card">
+            <img src="lin-bordeaux-brode.jpg" alt="Lin Bordeaux Brodé">
+            <div class="card-body">
+                <div class="card-title">Lin Bordeaux Brodé</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form2" onsubmit="commanderWhatsApp(event, 'Lin Bordeaux Brodé', '15 000 FCFA', 'form2')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan, Yopougon" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produit 3 -->
+        <div class="card">
+            <img src="lin-taupe-brode.jpg" alt="Lin Taupe Brodé">
+            <div class="card-body">
+                <div class="card-title">Lin Taupe Brodé</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form3" onsubmit="commanderWhatsApp(event, 'Lin Taupe Brodé', '15 000 FCFA', 'form3')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan, Marcory" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produit 4 -->
+        <div class="card">
+            <img src="lin-beige-brode.jpg" alt="Lin Beige Brodé">
+            <div class="card-body">
+                <div class="card-title">Lin Beige Brodé</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form4" onsubmit="commanderWhatsApp(event, 'Lin Beige Brodé', '15 000 FCFA', 'form4')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produit 5 -->
+        <div class="card">
+            <img src="lin-blanc-brode.jpg" alt="Lin Blanc Brodé">
+            <div class="card-body">
+                <div class="card-title">Lin Blanc Brodé</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form5" onsubmit="commanderWhatsApp(event, 'Lin Blanc Brodé', '15 000 FCFA', 'form5')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produit 6 -->
+        <div class="card">
+            <img src="lin-bleu-brode.jpg" alt="Lin Bleu Brodé">
+            <div class="card-body">
+                <div class="card-title">Lin Bleu Brodé</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form6" onsubmit="commanderWhatsApp(event, 'Lin Bleu Brodé', '15 000 FCFA', 'form6')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produit 7 -->
+        <div class="card">
+            <img src="lin-blanc-classique.jpg" alt="Lin Blanc Classique">
+            <div class="card-body">
+                <div class="card-title">Lin Blanc Classique</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form7" onsubmit="commanderWhatsApp(event, 'Lin Blanc Classique', '15 000 FCFA', 'form7')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produit 8 -->
+        <div class="card">
+            <img src="lin-mauve-imprime.jpg" alt="Lin Mauve Imprimé">
+            <div class="card-body">
+                <div class="card-title">Lin Mauve Imprimé</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form8" onsubmit="commanderWhatsApp(event, 'Lin Mauve Imprimé', '15 000 FCFA', 'form8')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produit 9 -->
+        <div class="card">
+            <img src="lin-jaune-ocre.jpg" alt="Lin Jaune Ocre">
+            <div class="card-body">
+                <div class="card-title">Lin Jaune Ocre</div>
+                <div class="price-box">
+                    <span class="old-price">25 000 FCFA</span>
+                    <span class="promo-price">15 000 FCFA</span>
+                </div>
+                <div class="form-container">
+                    <form id="form9" onsubmit="commanderWhatsApp(event, 'Lin Jaune Ocre', '15 000 FCFA', 'form9')">
+                        <div class="form-group">
+                            <label>Votre Nom Complet :</label>
+                            <input type="text" name="nom" placeholder="Ex: Jean Marc" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de Livraison :</label>
+                            <input type="text" name="lieu" placeholder="Ex: Abidjan" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Taille :</label>
+                            <select name="taille" required>
+                                <option value="">Choisir la taille</option>
+                                <option value="S">Taille S</option>
+                                <option value="M">Taille M</option>
+                                <option value="L">Taille L</option>
+                                <option value="XL">Taille XL</option>
+                                <option value="XXL">Taille XXL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-order">COMMANDER SUR WHATSAPP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function commanderWhatsApp(event, nomProduit, prixPromo, formId) {
+            event.preventDefault();
+            const form = document.getElementById(formId);
+            const nomClient = form.nom.value;
+            const lieu = form.lieu.value;
+            const taille = form.taille.value;
+
+            const numeroWhatsApp = "2250701856823";
+            const message = `Bonjour Élégance Boutique, je souhaite passer une commande :
+
+` +
+                            `📌 *Produit :* ${nomProduit}
+` +
+                            `💰 *Prix Promo :* ${prixPromo}
+` +
+                            `👤 *Nom du client :* ${nomClient}
+` +
+                            `📍 *Lieu de livraison :* ${lieu}
+` +
+                            `📏 *Taille :* ${taille}`;
+
+            const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>
