@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elegance Boutique — Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20242C;
+    --cream:#F7F2EA;
+    --gold:#A9793E;
+    --gold-dark:#7C5A2E;
+    --line:#E4DCCB;
+    --white:#FFFFFF;
+    --red:#B4483A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif; margin:0;}
+  header.top{
+    background:var(--ink);
+    color:var(--cream);
+    padding:28px 20px 22px;
+    text-align:center;
+    position:relative;
+  }
+  header.top h1{
+    font-size:26px;
+    font-weight:600;
+    letter-spacing:0.02em;
+  }
+  header.top p{
+    margin:6px 0 0;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    opacity:0.9;
+  }
+  nav.tabs{
+    display:flex;
+    max-width:640px;
+    margin:0 auto;
+    border-bottom:1px solid var(--line);
+    background:var(--white);
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+  nav.tabs button{
+    flex:1;
+    border:none;
+    background:none;
+    padding:14px 8px;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:600;
+    color:#8a8477;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+  }
+  nav.tabs button.active{
+    color:var(--ink);
+    border-bottom:2px solid var(--gold);
+  }
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:18px 16px 60px;
+  }
+  .section{display:none;}
+  .section.active{display:block;}
+
+  /* ---- share bar ---- */
+  .share-bar{
+    display:flex;
+    gap:8px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  .share-bar button{
+    flex:1;
+    min-width:100px;
+    padding:11px 8px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--white);
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .share-bar button:active{background:var(--cream);}
+
+  /* ---- product card ---- */
+  .grid{display:grid; gap:14px;}
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    position:relative;
+  }
+  .card .tag-hole{
+    position:absolute; top:10px; right:10px;
+    width:14px;height:14px;border-radius:50%;
+    background:var(--cream);
+    border:1px solid var(--line);
+    z-index:2;
+  }
+  .card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    display:block;
+    background:var(--cream);
+  }
+  .card .no-img{
+    width:100%;height:220px;
+    display:flex;align-items:center;justify-content:center;
+    color:#b8ae98; font-size:13px;
+    background:repeating-linear-gradient(135deg,#F2ECE0,#F2ECE0 10px,#EEE7D8 10px,#EEE7D8 20px);
+  }
+  .card-body{padding:14px 16px 16px;}
+  .card-body .cat{
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--gold-dark);
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .card-body h3{font-size:17px; font-weight:600;}
+  .card-body p.desc{
+    font-size:13px; color:#5c574c; margin:6px 0 10px;
+    line-height:1.4;
+  }
+  .price-row{display:flex; align-items:baseline; gap:8px; margin-bottom:12px;}
+  .price-row .price{font-family:'Fraunces',serif; font-size:19px; font-weight:600; color:var(--ink);}
+  .price-row .old{font-size:13px; color:#a89f8c; text-decoration:line-through;}
+  .price-row .promo-badge{
+    font-size:10.5px; font-weight:700; color:var(--white); background:var(--red);
+    padding:2px 7px; border-radius:20px; letter-spacing:0.03em;
+  }
+  .card-actions{display:flex; gap:8px;}
+  .card-actions button{
+    flex:1;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    font-size:13px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    cursor:pointer;
+  }
+  .btn-wa{background:#25D366; color:#fff;}
+  .btn-del{background:var(--cream); color:#8a8477; border:1px solid var(--line) !important; flex:0 0 44px;}
+
+  .empty{
+    text-align:center; padding:50px 20px; color:#a89f8c;
+  }
+  .empty h3{font-size:18px; color:var(--ink); margin-bottom:6px;}
+
+  /* ---- admin form ---- */
+  .locked{
+    text-align:center; padding:60px 20px;
+  }
+  .locked button{
+    margin-top:14px;
+    padding:12px 26px;
+    background:var(--ink);
+    color:var(--cream);
+    border:none;
+    border-radius:8px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+  }
+  form.admin-form{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px;
+  }
+  form.admin-form label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:#8a8477;
+    margin:14px 0 6px;
+  }
+  form.admin-form label:first-child{margin-top:0;}
+  form.admin-form input[type=text],
+  form.admin-form input[type=number],
+  form.admin-form textarea,
+  form.admin-form select{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    background:var(--cream);
+    color:var(--ink);
+  }
+  form.admin-form textarea{resize:vertical; min-height:60px;}
+  .price-fields{display:flex; gap:10px;}
+  .price-fields > div{flex:1;}
+  .img-preview{
+    margin-top:10px;
+    width:100%;
+    height:160px;
+    border-radius:8px;
+    object-fit:cover;
+    display:none;
+  }
+  .submit-btn{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    background:var(--gold);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-family:'Fraunces',serif;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .submit-btn:active{background:var(--gold-dark);}
+  .toast{
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:var(--cream);
+    padding:12px 20px; border-radius:30px; font-size:13px;
+    opacity:0; transition:opacity .25s; pointer-events:none;
+    z-index:50; white-space:nowrap;
+  }
+  .toast.show{opacity:1;}
+
+  .admin-list-item{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 0; border-bottom:1px solid var(--line);
+  }
+  .admin-list-item img,.admin-list-item .no-img-sm{
+    width:44px;height:44px;border-radius:6px;object-fit:cover;flex:0 0 44px;
+    background:var(--cream);
+  }
+  .admin-list-item .info{flex:1; min-width:0;}
+  .admin-list-item .info strong{display:block; font-size:13.5px;}
+  .admin-list-item .info span{font-size:12px; color:#8a8477;}
+  .admin-list-item button{
+    background:none; border:none; color:var(--red); font-size:12px; font-weight:600; cursor:pointer;
+  }
+
+  @media print{
+    nav.tabs, .share-bar, .card-actions, header.top p{display:none !important;}
+    header.top{background:none; color:var(--ink); padding:10px 0;}
+    body{background:#fff;}
+    .card{break-inside:avoid; border:1px solid #ccc;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Elegance Boutique</h1>
+  <p>Atelier &amp; Catalogue</p>
+</header>
+
+<nav class="tabs">
+  <button id="tab-catalogue-btn" class="active">Catalogue</button>
+  <button id="tab-admin-btn">Ajouter un article</button>
+</nav>
+
+<main>
+
+  <!-- CATALOGUE -->
+  <section id="tab-catalogue" class="section active">
+    <div class="share-bar">
+      <button id="share-wa-all">📲 WhatsApp</button>
+      <button id="share-link">🔗 Copier le lien</button>
+      <button id="share-pdf">🧾 PDF</button>
+    </div>
+    <div id="catalogue-grid" class="grid"></div>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="tab-admin" class="section">
+    <div id="admin-locked" class="locked">
+      <h3>Espace privé</h3>
+      <p>Entre ton code pour ajouter un article.</p>
+      <input type="tel" inputmode="numeric" id="unlock-input" placeholder="Code" maxlength="6"
+        style="max-width:160px; text-align:center; letter-spacing:0.3em; padding:11px; border:1px solid var(--line); border-radius:8px; font-size:16px; margin-top:6px; background:var(--white);">
+      <br>
+      <button id="unlock-btn">Déverrouiller</button>
+    </div>
+
+    <div id="admin-content" style="display:none;">
+      <form class="admin-form" id="product-form">
+        <label>Nom de l'article</label>
+        <input type="text" id="f-name" placeholder="Ex : Chemise en lin bleu ciel" required>
+
+        <label>Catégorie</label>
+        <select id="f-cat">
+          <option value="Chemises">Chemises</option>
+          <option value="Prêt-à-porter">Prêt-à-porter</option>
+          <option value="Accessoires">Accessoires</option>
+          <option value="Bien-être">Bien-être</option>
+          <option value="Autre">Autre</option>
+        </select>
+
+        <label>Description (courte)</label>
+        <textarea id="f-desc" placeholder="Ex : Lin 100%, coupe ajustée, disponible en 3 tailles"></textarea>
+
+        <label>Prix</label>
+        <div class="price-fields">
+          <div>
+            <span style="font-size:11px;color:#8a8477;">Prix normal (FCFA)</span>
+            <input type="number" id="f-price" placeholder="15000" required>
+          </div>
+          <div>
+            <span style="font-size:11px;color:#8a8477;">Prix promo (optionnel)</span>
+            <input type="number" id="f-promo" placeholder="12000">
+          </div>
+        </div>
+
+        <label>Photo</label>
+        <input type="file" id="f-image" accept="image/*">
+        <img id="f-preview" class="img-preview">
+
+        <button type="submit" class="submit-btn">Ajouter au catalogue</button>
+      </form>
+
+      <h3 style="margin:26px 0 10px; font-size:16px;">Articles publiés (<span id="admin-count">0</span>)</h3>
+      <div id="admin-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_CODE = "2580"; // code simple pour toi uniquement
+let products = [];
+let unlocked = false;
+
+const catalogueGrid = document.getElementById('catalogue-grid');
+const adminList = document.getElementById('admin-list');
+const adminCount = document.getElementById('admin-count');
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+function fmtFCFA(n){
+  return Number(n).toLocaleString('fr-FR') + ' FCFA';
+}
+
+async function loadProducts(){
+  try{
+    const res = await window.storage.get('products-list', true);
+    products = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    products = [];
+  }
+  renderCatalogue();
+  renderAdminList();
+}
+
+async function saveProducts(){
+  try{
+    await window.storage.set('products-list', JSON.stringify(products), true);
+  }catch(e){
+    showToast("Erreur d'enregistrement, réessaie.");
+  }
+}
+
+function renderCatalogue(){
+  if(products.length === 0){
+    catalogueGrid.innerHTML = `<div class="empty"><h3>Le catalogue est vide</h3><p>Ajoute ton premier article depuis l'onglet "Ajouter un article".</p></div>`;
+    return;
+  }
+  catalogueGrid.innerHTML = products.slice().reverse().map(p => `
+    <div class="card">
+      <div class="tag-hole"></div>
+      ${p.image ? `<img src="${p.image}" alt="${escapeHtml(p.name)}">` : `<div class="no-img">Pas de photo</div>`}
+      <div class="card-body">
+        <div class="cat">${escapeHtml(p.category)}</div>
+        <h3>${escapeHtml(p.name)}</h3>
+        ${p.desc ? `<p class="desc">${escapeHtml(p.desc)}</p>` : ''}
+        <div class="price-row">
+          <span class="price">${fmtFCFA(p.promo || p.price)}</span>
+          ${p.promo ? `<span class="old">${fmtFCFA(p.price)}</span><span class="promo-badge">PROMO</span>` : ''}
+        </div>
+        <div class="card-actions">
+          <button class="btn-wa" onclick="shareOne('${p.id}')">Commander sur WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAdminList(){
+  adminCount.textContent = products.length;
+  if(products.length === 0){
+    adminList.innerHTML = `<p style="color:#a89f8c; font-size:13px;">Aucun article pour l'instant.</p>`;
+    return;
+  }
+  adminList.innerHTML = products.slice().reverse().map(p => `
+    <div class="admin-list-item">
+      ${p.image ? `<img src="${p.image}">` : `<div class="no-img-sm"></div>`}
+      <div class="info">
+        <strong>${escapeHtml(p.name)}</strong>
+        <span>${fmtFCFA(p.promo || p.price)}${p.promo ? ' · promo' : ''}</span>
+      </div>
+      <button onclick="deleteProduct('${p.id}')">Supprimer</button>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+function shareOne(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  const price = p.promo || p.price;
+  let msg = `Bonjour, je suis intéressé(e) par cet article Elegance Boutique :\n\n`;
+  msg += `${p.name}\n`;
+  msg += `Prix : ${fmtFCFA(price)}${p.promo ? ` (au lieu de ${fmtFCFA(p.price)})` : ''}\n`;
+  if(p.desc) msg += `${p.desc}\n`;
+  msg += `\nEst-il disponible ?`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+document.getElementById('share-wa-all').addEventListener('click', () => {
+  if(products.length === 0){ showToast('Ajoute au moins un article d\'abord.'); return; }
+  let msg = `Découvrez le catalogue Elegance Boutique :\n\n`;
+  products.forEach(p => {
+    const price = p.promo || p.price;
+    msg += `• ${p.name} — ${fmtFCFA(price)}${p.promo ? ` (promo, au lieu de ${fmtFCFA(p.price)})` : ''}\n`;
+  });
+  msg += `\nDites-moi lequel vous intéresse !`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+});
+
+document.getElementById('share-link').addEventListener('click', () => {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('Lien copié !');
+  }).catch(() => {
+    showToast('Impossible de copier automatiquement, copie le lien depuis la barre d\'adresse.');
+  });
+});
+
+document.getElementById('share-pdf').addEventListener('click', () => {
+  window.print();
+});
+
+// Tabs
+document.getElementById('tab-catalogue-btn').addEventListener('click', () => switchTab('catalogue'));
+document.getElementById('tab-admin-btn').addEventListener('click', () => switchTab('admin'));
+function switchTab(name){
+  document.getElementById('tab-catalogue').classList.toggle('active', name==='catalogue');
+  document.getElementById('tab-admin').classList.toggle('active', name==='admin');
+  document.getElementById('tab-catalogue-btn').classList.toggle('active', name==='catalogue');
+  document.getElementById('tab-admin-btn').classList.toggle('active', name==='admin');
+}
+
+// Admin unlock
+function tryUnlock(){
+  const code = document.getElementById('unlock-input').value.trim();
+  if(code === ADMIN_CODE){
+    unlocked = true;
+    document.getElementById('admin-locked').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'block';
+  } else {
+    showToast('Code incorrect.');
+  }
+}
+document.getElementById('unlock-btn').addEventListener('click', tryUnlock);
+document.getElementById('unlock-input').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') tryUnlock();
+});
+
+// Image preview + compression
+let pendingImage = null;
+document.getElementById('f-image').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      const maxW = 800;
+      const scale = Math.min(1, maxW / img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      pendingImage = canvas.toDataURL('image/jpeg', 0.72);
+      const preview = document.getElementById('f-preview');
+      preview.src = pendingImage;
+      preview.style.display = 'block';
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+// Add product
+document.getElementById('product-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('f-name').value.trim();
+  const price = document.getElementById('f-price').value;
+  if(!name || !price){ showToast('Nom et prix sont obligatoires.'); return; }
+
+  const product = {
+    id: 'p_' + Date.now(),
+    name,
+    category: document.getElementById('f-cat').value,
+    desc: document.getElementById('f-desc').value.trim(),
+    price: Number(price),
+    promo: document.getElementById('f-promo').value ? Number(document.getElementById('f-promo').value) : null,
+    image: pendingImage
+  };
+
+  products.push(product);
+  await saveProducts();
+  renderCatalogue();
+  renderAdminList();
+  showToast('Article ajouté au catalogue !');
+
+  e.target.reset();
+  pendingImage = null;
+  document.getElementById('f-preview').style.display = 'none';
+});
+
+async function deleteProduct(id){
+  products = products.filter(p => p.id !== id);
+  await saveProducts();
+  renderCatalogue();
+  renderAdminList();
+  showToast('Article supprimé.');
+}
+
+loadProducts();
+</script>
+</body>
+</html>
